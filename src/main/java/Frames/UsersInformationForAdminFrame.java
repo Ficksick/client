@@ -61,11 +61,15 @@ public class UsersInformationForAdminFrame extends JFrame {
                 if(tableInformation.getValueAt(tableInformation.getSelectedRow(),1).equals("mainadmin")){
                     JOptionPane.showMessageDialog(null, "Вы не можете редактировать главного админа");
                 }else{
-                    EditUserFrame editUserFrame = new EditUserFrame();
-                    //передача информации по редактированию
+                    EditUserFrame editUserFrame = new EditUserFrame(cois, coos);
+                    setVisible(false);
+                    try{
+                        coos.writeObject("REDACT_USER_ADMIN");
+                        coos.writeObject(userToRedact);
+                    }catch(IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
-
-                //доделать редактирование пользователя
             }
         });
     }
