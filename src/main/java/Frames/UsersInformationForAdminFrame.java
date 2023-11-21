@@ -50,24 +50,63 @@ public class UsersInformationForAdminFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 User userToRedact = new User();
-                userToRedact.setUser_id((int) tableInformation.getValueAt(tableInformation.getSelectedRow(), 0));
-                userToRedact.setUsername((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 1));
-                userToRedact.setEmail((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 2));
-                userToRedact.setRole((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 3));
-                userToRedact.setPassword((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 4));
 
-                System.out.println(userToRedact.toString());
 
-                if(tableInformation.getValueAt(tableInformation.getSelectedRow(),1).equals("mainadmin")){
-                    JOptionPane.showMessageDialog(null, "Вы не можете редактировать главного админа");
-                }else{
-                    EditUserFrame editUserFrame = new EditUserFrame(cois, coos);
-                    setVisible(false);
-                    try{
-                        coos.writeObject("REDACT_USER_ADMIN");
-                        coos.writeObject(userToRedact);
-                    }catch(IOException ex) {
-                        ex.printStackTrace();
+                if (userToRedact.getUsername() == null) {
+                    JOptionPane.showMessageDialog(null, "Выберите кого вы хотите изменить");
+                } else {
+
+                    userToRedact.setUser_id((int) tableInformation.getValueAt(tableInformation.getSelectedRow(), 0));
+                    userToRedact.setUsername((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 1));
+                    userToRedact.setEmail((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 2));
+                    userToRedact.setRole((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 3));
+                    userToRedact.setPassword((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 4));
+
+                    if (tableInformation.getValueAt(tableInformation.getSelectedRow(), 1).equals("mainadmin")) {
+                        JOptionPane.showMessageDialog(null, "Вы не можете редактировать главного админа");
+                    } else {
+                        EditUserFrame editUserFrame = new EditUserFrame(cois, coos);
+                        setVisible(false);
+                        try {
+                            coos.writeObject("REDACT_USER_ADMIN");
+                            coos.writeObject(userToRedact);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        buttonDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User userToDelete = new User();
+
+
+                if (userToDelete.getUsername() == null) {
+                    JOptionPane.showMessageDialog(null, "Выберите кого вы хотите удалить");
+                } else {
+
+                    userToDelete.setUser_id((int) tableInformation.getValueAt(tableInformation.getSelectedRow(), 0));
+                    userToDelete.setUsername((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 1));
+                    userToDelete.setEmail((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 2));
+                    userToDelete.setRole((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 3));
+                    userToDelete.setPassword((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 4));
+
+                    if (tableInformation.getValueAt(tableInformation.getSelectedRow(), 1).equals("mainadmin")) {
+                        JOptionPane.showMessageDialog(null, "Вы не можете удалить главного админа");
+                    } else {
+
+                        int result = JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите удалить пользователя?");
+                        if (result == JOptionPane.YES_OPTION) {
+                            try {
+                                coos.writeObject("DELETE_USER_ADMIN");
+                                coos.writeObject(userToDelete);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
@@ -102,8 +141,5 @@ public class UsersInformationForAdminFrame extends JFrame {
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-
-        //принять информацию с сервера про пользователя
-        //вывести информацию о пользователе
     }
 }
