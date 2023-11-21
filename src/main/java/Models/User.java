@@ -80,4 +80,8 @@ public class User implements Serializable {
     public void setRole(String role){
         this.role = role;
     }
+
+    public void setUser_id(int id){
+        this.user_id = id;
+    }
 }

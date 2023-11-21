@@ -51,14 +51,6 @@ public class LoginFrame extends JFrame {
                 } catch (IOException | ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-//                finally {
-//                    try {
-//                        coos.close();
-//                        cois.close();
-//                    } catch (IOException ex) {
-//                        throw new RuntimeException(ex);
-//                    }
-//                }
                 if(userCheck.getRole() == null){
                     JOptionPane.showMessageDialog(null, "Неверный логин или пароль");
                 }else{

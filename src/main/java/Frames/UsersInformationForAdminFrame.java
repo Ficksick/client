@@ -49,17 +49,23 @@ public class UsersInformationForAdminFrame extends JFrame {
         buttonRedact.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Object[] row = new Object[5];
+                User userToRedact = new User();
+                userToRedact.setUser_id((int) tableInformation.getValueAt(tableInformation.getSelectedRow(), 0));
+                userToRedact.setUsername((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 1));
+                userToRedact.setEmail((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 2));
+                userToRedact.setRole((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 3));
+                userToRedact.setPassword((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 4));
 
-                row[0] = tableInformation.getValueAt(tableInformation.getSelectedRow(), 0);
-                row[1] = tableInformation.getValueAt(tableInformation.getSelectedRow(), 1);
-                row[2] = tableInformation.getValueAt(tableInformation.getSelectedRow(), 2);
-                row[3] = tableInformation.getValueAt(tableInformation.getSelectedRow(), 3);
-                row[4] = tableInformation.getValueAt(tableInformation.getSelectedRow(), 4);
+                System.out.println(userToRedact.toString());
 
-                System.out.println(row);
+                if(tableInformation.getValueAt(tableInformation.getSelectedRow(),1).equals("mainadmin")){
+                    JOptionPane.showMessageDialog(null, "Вы не можете редактировать главного админа");
+                }else{
+                    EditUserFrame editUserFrame = new EditUserFrame();
+                    //передача информации по редактированию
+                }
 
-                EditUserFrame editUserFrame = new EditUserFrame();
+                //доделать редактирование пользователя
             }
         });
     }
