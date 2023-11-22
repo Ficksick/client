@@ -51,10 +51,10 @@ public class LoginFrame extends JFrame {
                 } catch (IOException | ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-                if(userCheck.getRole() == null){
+                if (userCheck.getRole() == null) {
                     JOptionPane.showMessageDialog(null, "Неверный логин или пароль");
-                }else{
-                    switch(userCheck.getRole()){
+                } else {
+                    switch (userCheck.getRole()) {
                         case "admin":
                             JOptionPane.showMessageDialog(null, "Добро пожаловать, " + username);
                             MenuForAdmin menuForAdmin = new MenuForAdmin(cois, coos);

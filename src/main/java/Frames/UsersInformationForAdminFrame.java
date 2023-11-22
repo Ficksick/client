@@ -50,18 +50,15 @@ public class UsersInformationForAdminFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 User userToRedact = new User();
-
+                userToRedact.setUser_id((int) tableInformation.getValueAt(tableInformation.getSelectedRow(), 0));
+                userToRedact.setUsername((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 1));
+                userToRedact.setEmail((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 2));
+                userToRedact.setRole((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 3));
+                userToRedact.setPassword((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 4));
 
                 if (userToRedact.getUsername() == null) {
                     JOptionPane.showMessageDialog(null, "Выберите кого вы хотите изменить");
                 } else {
-
-                    userToRedact.setUser_id((int) tableInformation.getValueAt(tableInformation.getSelectedRow(), 0));
-                    userToRedact.setUsername((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 1));
-                    userToRedact.setEmail((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 2));
-                    userToRedact.setRole((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 3));
-                    userToRedact.setPassword((String) tableInformation.getValueAt(tableInformation.getSelectedRow(), 4));
-
                     if (tableInformation.getValueAt(tableInformation.getSelectedRow(), 1).equals("mainadmin")) {
                         JOptionPane.showMessageDialog(null, "Вы не можете редактировать главного админа");
                     } else {
