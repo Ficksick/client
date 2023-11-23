@@ -30,5 +30,12 @@ public class MenuForAdmin extends JFrame{
                 setVisible(false);
             }
         });
+
+        buttonHall.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                HallInformationForAdmin hallInformationForAdmin = new HallInformationForAdmin(cois, coos);
+            }
+        });
     }
 }
