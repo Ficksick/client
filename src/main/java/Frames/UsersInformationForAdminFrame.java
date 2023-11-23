@@ -133,8 +133,6 @@ public class UsersInformationForAdminFrame extends JFrame {
                 };
                 tableModel.addRow(data);
             }
-
-
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
