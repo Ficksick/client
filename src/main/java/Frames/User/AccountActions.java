@@ -1,4 +1,4 @@
-package Frames;
+package Frames.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -1,8 +1,9 @@
 package Models;
 
+import java.io.Serializable;
 import java.sql.Time;
 
-public class Film {
+public class Film implements Serializable {
     private int film_id;
     private String title;
     private String genre;
@@ -10,6 +11,7 @@ public class Film {
     private String mainActor;
     private Time duration;
     private int age;
+    private static final long serialVersionUID = 456789123L;
 
     public Film() {
     }
@@ -24,59 +26,59 @@ public class Film {
         this.age = age;
     }
 
-    private int getFilmId() {
+    public int getFilmId() {
         return film_id;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    private String getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    private String getMainActor() {
+    public String getMainActor() {
         return mainActor;
     }
 
-    private String getDirector() {
+    public String getDirector() {
         return director;
     }
 
-    private int getAge() {
+    public int getAge() {
         return age;
     }
 
-    private Time getDuration() {
+    public Time getDuration() {
         return duration;
     }
 
-    private void setFilm_id(int id) {
+    public void setFilm_id(int id) {
         this.film_id = id;
     }
 
-    private void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
-    private void setDirector(String director) {
+    public void setDirector(String director) {
         this.director = director;
     }
 
-    private void setDuration(Time duration) {
+    public void setDuration(Time duration) {
         this.duration = duration;
     }
 
-    private void setMainActor(String mainActor) {
+    public void setMainActor(String mainActor) {
         this.mainActor = mainActor;
     }
 
-    private void setAge(int age) {
+    public void setAge(int age) {
         this.age = age;
     }
 }

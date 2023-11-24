@@ -1,5 +1,6 @@
-package Frames;
+package Frames.Admin;
 
+import Frames.Admin.UsersInformationForAdminFrame;
 import Models.User;
 
 import javax.swing.*;
@@ -53,7 +54,7 @@ public class EditUserFrame extends JFrame {
                 String newRole = null;
                 if (comboBoxRole.getSelectedItem().equals("сделать администратором")) {
                     newRole = "admin";
-                } else if (comboBoxRole.getSelectedItem().equals("оставить пользователем")) {
+                } else if (comboBoxRole.getSelectedItem().equals("сделать пользователем")) {
                     newRole = "user";
                 }
 
@@ -63,12 +64,14 @@ public class EditUserFrame extends JFrame {
                     userToChange.setEmail(newEmail);
                     userToChange.setPassword(newPassword);
                     userToChange.setRole(newRole);
+
                     coos.writeObject(userToChange);
                     System.out.println(userToChange.toString());
+
                     String answer = (String) cois.readObject();
                     if (answer.equals("OK")) {
                         JOptionPane.showMessageDialog(null, "Пользователь успешно изменен");
-                        setVisible(false);
+                        dispose();
                         UsersInformationForAdminFrame usersInformationForAdminFrame = new UsersInformationForAdminFrame(cois, coos);
                     }
                 } catch (IOException | ClassNotFoundException ex) {
@@ -79,7 +82,8 @@ public class EditUserFrame extends JFrame {
         buttonBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+                dispose();
+                UsersInformationForAdminFrame usersInformationForAdminFrame = new UsersInformationForAdminFrame(cois, coos);
             }
         });
     }

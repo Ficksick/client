@@ -1,9 +1,12 @@
 package Models;
 
-public class Hall {
+import java.io.Serializable;
+
+public class Hall implements Serializable {
     private int hall_id;
     private String hallName;
     private int capacity;
+    private static final long serialVersionUID = 234567891L;
 
     public Hall() {
 
@@ -37,5 +40,11 @@ public class Hall {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public String toString(){
+        return "id = " + hall_id +
+                "\nhallName = " + hallName +
+                "\ncapacity = " + capacity;
     }
 }

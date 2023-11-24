@@ -1,5 +1,7 @@
 package Frames;
 
+import Frames.Admin.MenuForAdmin;
+import Frames.User.MenuFrame;
 import Models.User;
 
 import javax.swing.*;
@@ -8,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Objects;
 
 public class LoginFrame extends JFrame {
     private JPanel rootPanel;
@@ -37,12 +38,14 @@ public class LoginFrame extends JFrame {
                 String username = usernameTextField.getText();
                 String password = passwordField.getText();
 
+                String hashPass = Integer.toString(password.hashCode());
+
                 User userCheck = new User();
                 User user = new User();
                 try {
                     coos.writeObject("LOGIN");
                     user.setUsername(username);
-                    user.setPassword(password);
+                    user.setPassword(hashPass);
                     System.out.println(user.toString());
                     coos.writeObject(user);
                     userCheck = (User) cois.readObject();

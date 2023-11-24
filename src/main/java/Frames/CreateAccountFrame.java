@@ -54,7 +54,7 @@ public class CreateAccountFrame extends JFrame{
                     JOptionPane.showMessageDialog(null,"Неверный пароль");
                 }else{
                     userToDB.setUsername(textFieldUsername.getText());
-                    userToDB.setPassword(password);
+                    userToDB.setPassword(Integer.toString(password.hashCode()));
                     userToDB.setEmail(textFieldEmail.getText());
                     userToDB.setRole("user");
 

@@ -1,35 +1,38 @@
 package Models;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Time;
 
-public class Screening {
+public class Screening implements Serializable {
     private int screening_id;
-    private int film_id;
-    private int hall_id;
+    private Film film;
+    private Hall hall;
+    private Date date;
     private Time start_time;
     private Time end_time;
+    private static final long serialVersionUID = 345678912L;
 
     public Screening() {
     }
 
-    public Screening(int id, int film_id, int hall_id, Time start_time, Time end_time) {
+    public Screening(int id, Date date, Time start_time, Time end_time) {
         this.screening_id = id;
-        this.film_id = film_id;
-        this.hall_id = hall_id;
+        this.date = date;
         this.start_time = start_time;
         this.end_time = end_time;
     }
 
+    public void setDate(Date date){
+        this.date = date;
+    }
+
+    public Date getDate(){
+        return date;
+    }
+
     public void setScreening_id(int id) {
         this.screening_id = id;
-    }
-
-    public void setHall_id(int id) {
-        this.hall_id = id;
-    }
-
-    public void setFilm_id(int id) {
-        this.film_id = id;
     }
 
     public void setStart_time(Time time) {
@@ -44,12 +47,20 @@ public class Screening {
         return screening_id;
     }
 
-    public int getHall_id() {
-        return hall_id;
+    public Film getFilm() {
+        return this.film;
     }
 
-    public int getFilm_id() {
-        return film_id;
+    public void setFilm(Film film) {
+        this.film = film;
+    }
+
+    public Hall getHall() {
+        return this.hall;
+    }
+
+    public void setHall(Hall hall) {
+        this.hall = hall;
     }
 
     public Time getStart_time() {
