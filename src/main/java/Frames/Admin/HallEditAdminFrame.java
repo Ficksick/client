@@ -69,7 +69,6 @@ public class HallEditAdminFrame extends JFrame {
                     if(hallToRedact.getHallName() == null || hallToRedact.getCapacity() == 0){
                         JOptionPane.showMessageDialog(null, "Вы не ввели новые данные");
                     }else{
-                        System.out.println("Прикол на редактирование: " + hallToRedact.toString());
                         coos.writeObject(hallToRedact);
                         String answer = (String) cois.readObject();
                         if(answer.equals("OK")){

@@ -9,8 +9,8 @@ public class Screening implements Serializable {
     private Film film;
     private Hall hall;
     private Date date;
-    private Time start_time;
-    private Time end_time;
+    private Time startTime;
+    private Time endTime;
     private static final long serialVersionUID = 345678912L;
 
     public Screening() {
@@ -19,8 +19,8 @@ public class Screening implements Serializable {
     public Screening(int id, Date date, Time start_time, Time end_time) {
         this.screening_id = id;
         this.date = date;
-        this.start_time = start_time;
-        this.end_time = end_time;
+        this.startTime = start_time;
+        this.endTime = end_time;
     }
 
     public void setDate(Date date){
@@ -36,11 +36,11 @@ public class Screening implements Serializable {
     }
 
     public void setStart_time(Time time) {
-        this.start_time = time;
+        this.startTime = time;
     }
 
     public void setEnd_time(Time time) {
-        this.end_time = time;
+        this.endTime = time;
     }
 
     public int getScreening_id() {
@@ -64,10 +64,27 @@ public class Screening implements Serializable {
     }
 
     public Time getStart_time() {
-        return start_time;
+        return startTime;
     }
 
     public Time getEnd_time() {
-        return end_time;
+        return endTime;
+    }
+
+    public String toString(){
+        return "id = " + screening_id +
+                "\nfilm = " + film +
+                "\nhall = " + hall +
+                "\ndate = " + date +
+                "\nstart = " + startTime +
+                "\nend = " + endTime;
+    }
+
+    public String getFilmTitle(){
+        return film.getTitle();
+    }
+
+    public int getHallID(){
+        return hall.getHall_id();
     }
 }

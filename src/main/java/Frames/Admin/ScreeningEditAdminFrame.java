@@ -3,7 +3,6 @@ package Frames.Admin;
 import Models.Film;
 import Models.Hall;
 import Models.Screening;
-import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,33 +15,32 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScreeningCreateAdminFrame extends JFrame {
-    private JLabel title;
+public class ScreeningEditAdminFrame extends JFrame {
     private JPanel root;
+    private JLabel title;
     private JPanel dataPanel;
     private JPanel buttonsPanel;
-    private JButton buttonAccept;
-    private JButton buttonBack;
     private JComboBox comboBoxFilmName;
     private JComboBox comboBoxHallNumber;
     private JComboBox comboBoxDay;
     private JComboBox comboBoxMonth;
     private JComboBox comboBoxYear;
-    private JPanel datePanel;
-    private JPanel timePanel;
-    private JSpinner spinnerHours;
+    private JSpinner spinnerHour;
     private JSpinner spinnerMinutes;
-    private JSpinner test;
+    private JButton buttonAccept;
+    private JButton buttonBack;
+    private JPanel spinnerPanel;
+    private JPanel datePanel;
 
-    public ScreeningCreateAdminFrame(ObjectInputStream cois, ObjectOutputStream coos) {
-        setSize(350, 400);
-        setVisible(true);
+    public ScreeningEditAdminFrame(ObjectInputStream cois, ObjectOutputStream coos, Screening screeningToRedact) {
+        setSize(450, 300);
         setContentPane(root);
         setLocationRelativeTo(null);
+        setVisible(true);
 
         SpinnerModel timeModelHour = new SpinnerNumberModel(0, 0, 24, 1);
         SpinnerModel timeModelMinutes = new SpinnerNumberModel(0, 0, 59, 1);
-        spinnerHours.setModel(timeModelHour);
+        spinnerHour.setModel(timeModelHour);
         spinnerMinutes.setModel(timeModelMinutes);
 
         DefaultComboBoxModel<String> modelDay = new DefaultComboBoxModel<>();
@@ -63,6 +61,8 @@ public class ScreeningCreateAdminFrame extends JFrame {
             modelYear.addElement(Integer.toString(i));
             comboBoxYear.setModel(modelYear);
         }
+
+
 
         try {
             coos.writeObject("VIEW_HALL_ADMIN");
@@ -112,14 +112,11 @@ public class ScreeningCreateAdminFrame extends JFrame {
         buttonAccept.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //проверка на наличие сеанса в это время и дату
-
                 Screening screening = new Screening();
                 int checker = 0;
-
                 try {
-                    coos.writeObject("CREATE_SCREENING_ADMIN");
-
+                    coos.writeObject("REDACT_SCREENING_ADMIN");
+                    coos.writeObject(screeningToRedact);
                     List<Screening> screenings = new ArrayList<>();
                     screenings = (List<Screening>) cois.readObject();
 
@@ -138,7 +135,7 @@ public class ScreeningCreateAdminFrame extends JFrame {
                     month = (String) comboBoxMonth.getSelectedItem();
                     year = (String) comboBoxYear.getSelectedItem();
 
-                    String time = spinnerHours.getValue() + ":" + spinnerMinutes.getValue() + ":00";
+                    String time = spinnerHour.getValue() + ":" + spinnerMinutes.getValue() + ":00";
                     Time startTime = Time.valueOf(time);
 
                     String dateString = year + "-" + month + "-" + day;
@@ -166,28 +163,26 @@ public class ScreeningCreateAdminFrame extends JFrame {
 
                                 String answer = (String) cois.readObject();
                                 if (answer.equals("OK")) {
-                                    JOptionPane.showMessageDialog(null, "Сеанс успешно добавлен");
+                                    JOptionPane.showMessageDialog(null, "Сеанс успешно отредактирован");
                                 }
                             } else {
                                 for (Screening screeningSearch : screenings) {
                                     if (screeningSearch.getHall().getHall_id() == hallNumberInt) {
                                         checker++;
                                         Date compareDate = Date.valueOf(screeningSearch.getDate().toString());
+                                        Time compareTime = Time.valueOf(screeningSearch.getStart_time().toString());
                                         long endTimeLong = startTime.getTime() - film.getDuration().getTime();
-                                        Time endTime = new Time(endTimeLong);
-
-                                        Time startCompareTime = Time.valueOf(screeningSearch.getStart_time().toString());
+                                        Time endTime = new Time(endTimeLong);Time startCompareTime = Time.valueOf(screeningSearch.getStart_time().toString());
                                         Time endTCompareTime = Time.valueOf((screeningSearch.getEnd_time().toString()));
+
                                         if (startTime.compareTo(startCompareTime) > 0 || startTime.compareTo(startCompareTime) == 0
                                                 && endTime.compareTo(endTCompareTime) < 0) {
-
                                             if (date.compareTo((compareDate)) == 0) {
                                                 JOptionPane.showMessageDialog(null, "В это время уже есть сеанс");
                                                 screening = new Screening();
                                                 coos.writeObject(screening);
                                                 String answer = (String) cois.readObject();
-                                                if (answer.equals("EXIST")) {
-                                                    System.out.println("EXIST");
+                                                if(answer.equals("EXIST")){
                                                     break;
                                                 }
                                             } else {
@@ -204,7 +199,7 @@ public class ScreeningCreateAdminFrame extends JFrame {
 
                                                 String answer = (String) cois.readObject();
                                                 if (answer.equals("OK")) {
-                                                    JOptionPane.showMessageDialog(null, "Сеанс успешно добавлен");
+                                                    JOptionPane.showMessageDialog(null, "Сеанс успешно отредактирован");
                                                 }
                                             }
                                         }
@@ -221,7 +216,7 @@ public class ScreeningCreateAdminFrame extends JFrame {
 
                                         String answer = (String) cois.readObject();
                                         if (answer.equals("OK")) {
-                                            JOptionPane.showMessageDialog(null, "Сеанс успешно добавлен");
+                                            JOptionPane.showMessageDialog(null, "Сеанс успешно отредактирован");
                                         }
                                     }
                                 }
@@ -229,12 +224,12 @@ public class ScreeningCreateAdminFrame extends JFrame {
                         }
                     }
 
-//                    cois.readObject();
-//                    coos.writeObject("");
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             }
+
         });
     }
 }
+

@@ -1,5 +1,6 @@
 package Frames.Admin;
 
+import Models.Film;
 import Models.Hall;
 import Models.Screening;
 
@@ -52,11 +53,49 @@ public class ScreeningInformationForAdminFrame extends JFrame {
                 dispose();
             }
         });
+        buttonEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Screening screeningToRedact = new Screening();
+                if (tableScreening.getSelectedRow() == -1) {
+                    JOptionPane.showMessageDialog(null, "Выберите какой сеанс вы хотите отредактировать");
+                } else {
+                    screeningToRedact.setScreening_id((int) tableScreening.getValueAt(tableScreening.getSelectedRow(), 0));
+
+                    //coos.writeObject("REDACT_SCREENING_ADMIN");
+
+                    ScreeningEditAdminFrame screeningEditAdminFrame = new ScreeningEditAdminFrame(cois, coos, screeningToRedact);
+                    dispose();
+
+                }
+            }
+        });
+        buttonDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Screening screeningToDelete = new Screening();
+                if (tableScreening.getSelectedRow() == -1) {
+                    JOptionPane.showMessageDialog(null, "Выберите какой сеанс вы хотите удалить");
+                } else {
+                    screeningToDelete.setScreening_id((int) tableScreening.getValueAt(tableScreening.getSelectedRow(), 0));
+                    int answer = JOptionPane.showConfirmDialog(null, "Вы уверены, что хотите удалить выбранный сеанс?");
+                    if (answer == JOptionPane.YES_OPTION) {
+                        try {
+                            coos.writeObject("DELETE_SCREENING_ADMIN");
+                            coos.writeObject(screeningToDelete);
+                            showScreeningData(cois, coos);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void showScreeningData(ObjectInputStream cois, ObjectOutputStream coos) {
         Object[] columnTitle = {
-                "Id", "Название фильма", "id_зала", "Начало", "Конец"
+                "Id", "Название фильма", "id_зала", "Дата", "Начало", "Конец"
         };
         tableModel = new DefaultTableModel(null, columnTitle);
         tableScreening.setModel(tableModel);
@@ -71,12 +110,13 @@ public class ScreeningInformationForAdminFrame extends JFrame {
             for (Screening screening : screenings) {
                 Object[] data = {
                         screening.getScreening_id(),
-                        screening.getFilm(),
-                        screening.getHall(),
+                        screening.getFilmTitle(),
+                        screening.getHallID(),
+                        screening.getDate(),
                         screening.getStart_time(),
                         screening.getEnd_time()
                 };
-                System.out.println(screening.toString());
+                //System.out.println(screening.toString());
                 tableModel.addRow(data);
             }
         } catch (IOException | ClassNotFoundException ex) {
