@@ -1,22 +1,17 @@
 package Models;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     private int user_id;
-
     private String username;
-
     private String email;
-
     private String role;
-
     private String password;
-
     private static final long serialVersionUID = 123456789L;
-
-//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Ticket> tickets;
+    private List<Ticket> tickets;
 
     public User() {
     }

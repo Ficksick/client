@@ -61,11 +61,12 @@ public class LoginFrame extends JFrame {
                         case "admin":
                             JOptionPane.showMessageDialog(null, "Добро пожаловать, " + username);
                             MenuForAdmin menuForAdmin = new MenuForAdmin(cois, coos);
-                            setVisible(false);
+                            dispose();
                             break;
                         case "user":
                             JOptionPane.showMessageDialog(null, "Добро пожаловать, " + username);
-                            MenuFrame menuUser = new MenuFrame();//user
+                            MenuFrame menuUser = new MenuFrame(cois, coos, userCheck);//user
+                            dispose();
                             break;
                     }
                 }
@@ -76,7 +77,7 @@ public class LoginFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CreateAccountFrame createAccountFrame = new CreateAccountFrame(cois, coos);
-                setVisible(false);
+                dispose();
             }
         });
     }

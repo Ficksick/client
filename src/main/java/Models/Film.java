@@ -10,13 +10,13 @@ public class Film implements Serializable {
     private String director;
     private String mainActor;
     private Time duration;
-    private int age;
+    private String age;
     private static final long serialVersionUID = 456789123L;
 
     public Film() {
     }
 
-    public Film(int id, String title, String genre, String director, String mainActor, Time duration, int age) {
+    public Film(int id, String title, String genre, String director, String mainActor, Time duration, String age) {
         this.film_id = id;
         this.title = title;
         this.genre = genre;
@@ -46,7 +46,7 @@ public class Film implements Serializable {
         return director;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
@@ -78,7 +78,16 @@ public class Film implements Serializable {
         this.mainActor = mainActor;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
+    }
+
+    public String toString(){
+        return "Название фильма = " + title +
+                "\nЖанр = " + genre +
+                "\nРежиссер = " + director +
+                "\nГлавный актер = " + mainActor +
+                "\nПродолжительность = " + duration +
+                "\nВозрастное ограничение = " + age;
     }
 }

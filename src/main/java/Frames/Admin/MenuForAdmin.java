@@ -3,6 +3,7 @@ package Frames.Admin;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -14,6 +15,7 @@ public class MenuForAdmin extends JFrame {
     private JButton buttonFilm;
     private JButton buttonExit;
     private JLabel title;
+    private JButton buttonStatistic;
     private ObjectInputStream cois;
     private ObjectOutputStream coos;
 
@@ -43,6 +45,32 @@ public class MenuForAdmin extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ScreeningInformationForAdminFrame screeningInformationForAdminFrame = new ScreeningInformationForAdminFrame(cois, coos);
+                dispose();
+            }
+        });
+        buttonFilm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FilmInformationForAdminFrame filmInformationForAdminFrame = new FilmInformationForAdminFrame(cois, coos);
+                dispose();
+            }
+        });
+        buttonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                try {
+                    cois.close();
+                    coos.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        buttonStatistic.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StatisticFrame statisticFrame = new StatisticFrame(cois,coos);
                 dispose();
             }
         });

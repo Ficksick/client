@@ -11,23 +11,25 @@ public class Screening implements Serializable {
     private Date date;
     private Time startTime;
     private Time endTime;
+    private double price;
     private static final long serialVersionUID = 345678912L;
 
     public Screening() {
     }
 
-    public Screening(int id, Date date, Time start_time, Time end_time) {
+    public Screening(int id, Date date, Time start_time, Time end_time, double price) {
         this.screening_id = id;
         this.date = date;
         this.startTime = start_time;
         this.endTime = end_time;
+        this.price = price;
     }
 
-    public void setDate(Date date){
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return date;
     }
 
@@ -71,20 +73,32 @@ public class Screening implements Serializable {
         return endTime;
     }
 
-    public String toString(){
-        return "id = " + screening_id +
-                "\nfilm = " + film +
-                "\nhall = " + hall +
-                "\ndate = " + date +
-                "\nstart = " + startTime +
-                "\nend = " + endTime;
+    public String toString() {
+        return "Номер сеана = " + screening_id +
+                "\nНазвание фильма = " + film +
+                "\nЗал = " + hall +
+                "\nДата = " + date +
+                "\nВремя начала = " + startTime +
+                "\nВремя конца = " + endTime;
     }
 
-    public String getFilmTitle(){
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getFilmTitle() {
         return film.getTitle();
     }
 
-    public int getHallID(){
+    public int getHallID() {
         return hall.getHall_id();
+    }
+
+    public String getHallName() {
+        return hall.getHallName();
     }
 }

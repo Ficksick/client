@@ -3,7 +3,6 @@ package Frames.Admin;
 import Models.Film;
 import Models.Hall;
 import Models.Screening;
-import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +32,7 @@ public class ScreeningCreateAdminFrame extends JFrame {
     private JPanel timePanel;
     private JSpinner spinnerHours;
     private JSpinner spinnerMinutes;
+    private JTextField textFieldPrice;
     private JSpinner test;
 
     public ScreeningCreateAdminFrame(ObjectInputStream cois, ObjectOutputStream coos) {
@@ -84,7 +85,7 @@ public class ScreeningCreateAdminFrame extends JFrame {
         }
 
         try {
-            coos.writeObject("VIEW_FILMS_ADMIN");
+            coos.writeObject("VIEW_FILM_ADMIN");
             List<Film> films = new ArrayList<>();
             films = (List<Film>) cois.readObject();
 
@@ -120,9 +121,6 @@ public class ScreeningCreateAdminFrame extends JFrame {
                 try {
                     coos.writeObject("CREATE_SCREENING_ADMIN");
 
-                    List<Screening> screenings = new ArrayList<>();
-                    screenings = (List<Screening>) cois.readObject();
-
                     List<Film> films = new ArrayList<>();
                     films = (List<Film>) cois.readObject();
 
@@ -150,87 +148,45 @@ public class ScreeningCreateAdminFrame extends JFrame {
                     coos.writeObject(hall);
                     hall = (Hall) cois.readObject();
 
-                    for (Film film : films) {
-                        if (film.getTitle().equals(filmTitle)) {
-                            if (screenings.size() == 0) {
+                    double price = .0;
+                    if(textFieldPrice.getText().equals(" ")){
+                        JOptionPane.showMessageDialog(null, "Не все поля заполены");
+                    }else{
+                        price = Double.parseDouble(textFieldPrice.getText());
+
+                        for(Film film : films){
+                            if(film.getTitle().equals(filmTitle)){
                                 screening.setFilm(film);
-                                screening.setDate(date);
                                 screening.setHall(hall);
+                                screening.setDate(date);
                                 screening.setStart_time(startTime);
-                                Time filmDuration = film.getDuration();
-                                long endTimeLong = startTime.getTime() - filmDuration.getTime();
-                                Time endTime = new Time(endTimeLong);
+                                screening.setPrice(price);
+
+                                LocalTime startTimeLocal = startTime.toLocalTime();
+                                LocalTime duration = film.getDuration().toLocalTime();
+
+                                LocalTime endTimeLocal = startTimeLocal.plusHours(duration.getHour()).plusMinutes(duration.getMinute()).plusSeconds((duration.getSecond()));
+
+                                Time endTime = Time.valueOf(endTimeLocal);
+
                                 screening.setEnd_time(endTime);
-
-                                coos.writeObject(screening);
-
-                                String answer = (String) cois.readObject();
-                                if (answer.equals("OK")) {
-                                    JOptionPane.showMessageDialog(null, "Сеанс успешно добавлен");
-                                }
-                            } else {
-                                for (Screening screeningSearch : screenings) {
-                                    if (screeningSearch.getHall().getHall_id() == hallNumberInt) {
-                                        checker++;
-                                        Date compareDate = Date.valueOf(screeningSearch.getDate().toString());
-                                        long endTimeLong = startTime.getTime() - film.getDuration().getTime();
-                                        Time endTime = new Time(endTimeLong);
-
-                                        Time startCompareTime = Time.valueOf(screeningSearch.getStart_time().toString());
-                                        Time endTCompareTime = Time.valueOf((screeningSearch.getEnd_time().toString()));
-                                        if (startTime.compareTo(startCompareTime) > 0 || startTime.compareTo(startCompareTime) == 0
-                                                && endTime.compareTo(endTCompareTime) < 0) {
-
-                                            if (date.compareTo((compareDate)) == 0) {
-                                                JOptionPane.showMessageDialog(null, "В это время уже есть сеанс");
-                                                screening = new Screening();
-                                                coos.writeObject(screening);
-                                                String answer = (String) cois.readObject();
-                                                if (answer.equals("EXIST")) {
-                                                    System.out.println("EXIST");
-                                                    break;
-                                                }
-                                            } else {
-                                                screening.setFilm(film);
-                                                screening.setDate(date);
-                                                screening.setHall(hall);
-                                                screening.setStart_time(startTime);
-                                                Time filmDuration = film.getDuration();
-//                                                long endTimeLong = startTime.getTime() - filmDuration.getTime();
-//                                                Time endTime = new Time(endTimeLong);
-                                                screening.setEnd_time(endTime);
-
-                                                coos.writeObject(screening);
-
-                                                String answer = (String) cois.readObject();
-                                                if (answer.equals("OK")) {
-                                                    JOptionPane.showMessageDialog(null, "Сеанс успешно добавлен");
-                                                }
-                                            }
-                                        }
-                                    } else if (checker == 0) {
-                                        screening.setFilm(film);
-                                        screening.setDate(date);
-                                        screening.setHall(hall);
-                                        screening.setStart_time(startTime);
-                                        Time filmDuration = film.getDuration();
-                                        long endTimeLong = startTime.getTime() - filmDuration.getTime();
-                                        Time endTime = new Time(endTimeLong);
-                                        screening.setEnd_time(endTime);
-                                        coos.writeObject(screening);
-
-                                        String answer = (String) cois.readObject();
-                                        if (answer.equals("OK")) {
-                                            JOptionPane.showMessageDialog(null, "Сеанс успешно добавлен");
-                                        }
-                                    }
-                                }
                             }
                         }
+                        coos.writeObject(screening);
                     }
 
-//                    cois.readObject();
-//                    coos.writeObject("");
+                    String answer = (String) cois.readObject();
+
+                    if(answer.equals("EXIST")){
+                        JOptionPane.showMessageDialog(null, "Сеанс в такое время уже существует");
+                    }else if(answer.equals("OK")){
+                        JOptionPane.showMessageDialog(null, "Сеанс успешно создан");
+                        dispose();
+                        ScreeningInformationForAdminFrame screeningInformationForAdminFrame = new ScreeningInformationForAdminFrame(cois, coos);
+                    }
+
+                    //сделать проверку на ввод всех полей
+                    //сделать проверку на наличие сеанса в это же время
                 } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }

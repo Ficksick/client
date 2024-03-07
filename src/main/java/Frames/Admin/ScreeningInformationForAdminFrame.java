@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +64,8 @@ public class ScreeningInformationForAdminFrame extends JFrame {
                 } else {
                     screeningToRedact.setScreening_id((int) tableScreening.getValueAt(tableScreening.getSelectedRow(), 0));
 
-                    //coos.writeObject("REDACT_SCREENING_ADMIN");
-
                     ScreeningEditAdminFrame screeningEditAdminFrame = new ScreeningEditAdminFrame(cois, coos, screeningToRedact);
                     dispose();
-
                 }
             }
         });
@@ -95,7 +94,7 @@ public class ScreeningInformationForAdminFrame extends JFrame {
 
     private void showScreeningData(ObjectInputStream cois, ObjectOutputStream coos) {
         Object[] columnTitle = {
-                "Id", "Название фильма", "id_зала", "Дата", "Начало", "Конец"
+                "Id", "Название фильма", "id_зала", "Дата", "Начало", "Конец", "Цена"
         };
         tableModel = new DefaultTableModel(null, columnTitle);
         tableScreening.setModel(tableModel);
@@ -114,7 +113,8 @@ public class ScreeningInformationForAdminFrame extends JFrame {
                         screening.getHallID(),
                         screening.getDate(),
                         screening.getStart_time(),
-                        screening.getEnd_time()
+                        screening.getEnd_time(),
+                        screening.getPrice()
                 };
                 //System.out.println(screening.toString());
                 tableModel.addRow(data);

@@ -95,8 +95,14 @@ public class UsersInformationForAdminFrame extends JFrame {
                             try {
                                 coos.writeObject("DELETE_USER_ADMIN");
                                 coos.writeObject(userToDelete);
+                                String answer = (String) cois.readObject();
+
+                                if(answer.equals("OK")){
+                                    JOptionPane.showMessageDialog(null, "Пользователь был удален");
+                                }
+
                                 showAccountData(cois, coos);
-                            } catch (IOException ex) {
+                            } catch (IOException | ClassNotFoundException ex) {
                                 ex.printStackTrace();
                             }
                         }

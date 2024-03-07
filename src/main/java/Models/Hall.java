@@ -43,8 +43,8 @@ public class Hall implements Serializable {
     }
 
     public String toString(){
-        return "id = " + hall_id +
-                "\nhallName = " + hallName +
-                "\ncapacity = " + capacity;
+        return "Номер зала = " + hall_id +
+                "\nНазвание зала = " + hallName +
+                "\nВместимость = " + capacity;
     }
 }

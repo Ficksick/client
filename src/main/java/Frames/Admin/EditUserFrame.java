@@ -62,7 +62,7 @@ public class EditUserFrame extends JFrame {
                     User userToChange = new User();
                     userToChange.setUsername(newUsername);
                     userToChange.setEmail(newEmail);
-                    userToChange.setPassword(newPassword);
+                    userToChange.setPassword(Integer.toString(newPassword.hashCode()));
                     userToChange.setRole(newRole);
 
                     coos.writeObject(userToChange);

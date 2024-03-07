@@ -67,15 +67,14 @@ public class CreateAccountFrame extends JFrame{
 
                         if(answer.equals("OK")){
                             JOptionPane.showMessageDialog(null, "Аккаунт успешно создан");
+                            dispose();
+                            LoginFrame loginFrame = new LoginFrame(cois,coos);
                         } else if (answer.equals("ERROR")) {
                             JOptionPane.showMessageDialog(null, "Такой аккаунт уже существует");
                         }
                     } catch (IOException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
-                    //отправить на сервер
-                    //принять с сервера ответ
-                    //вернуться обратно на loginFrame
                 }
             }
         });
